@@ -8,12 +8,6 @@ terraform {
 
   required_version = ">= 1.1.0"
 }
-backend "azurerm" {
-        resource_group_name  = "dsspocrg"
-        storage_account_name = "postgressa"
-        container_name       = "postgressacont"
-        key                  = "f2WSaYGUg/kMv8lPzd3n2ElRV6f5EUw1LSjcYtAqdFmYdgPsDR+mlMQCv6wvIhoRPO32V2r00H/U+AStmbNgXA=="
-    }
 
 provider "azurerm" {
   features {}
