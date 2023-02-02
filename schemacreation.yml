@@ -1,0 +1,35 @@
+name: Create PostgreSQL Table
+
+on: [push]
+
+env:
+  POSTGRES_HOST: "postgresschema"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: "postgresschema.postgres.database.azure.com"
+  POSTGRES_USER: "schema01@postgresschema"
+  POSTGRES_PASSWORD: "Schema@01"
+
+jobs:
+  create_table:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up PostgreSQL CLI
+      uses: docker://postgres:12
+      env:
+        POSTGRES_HOST: ${{ env.postgresschema }}
+        POSTGRES_PORT: ${{ env.5432 }}
+        POSTGRES_DB: ${{ env.postgresschema.postgres.database.azure.com }}
+        POSTGRES_USER: ${{ env.schema01@postgresschema }}
+        POSTGRES_PASSWORD: ${{ env.Schema@01 }}
+    
+    - name: Create table
+      run: |
+        psql -h ${{ env.postgresschema }} \
+             -p ${{ env.5432 }} \
+             -U ${{ env.schema01@postgresschema }} \
+             -c "CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR(255), email VARCHAR(255));" \
+             ${{ env.postgresschema.postgres.database.azure.com }}
