@@ -6,7 +6,7 @@ env:
   POSTGRES_HOST: "postgresschema"
   POSTGRES_PORT: "5432"
   POSTGRES_DB: "postgresschema.postgres.database.azure.com"
-  POSTGRES_USER: "schema01"
+  POSTGRES_USER: "schema01@postgresschema"
   POSTGRES_PASSWORD: "Schema@01"
 
 jobs:
@@ -32,4 +32,4 @@ jobs:
              -p ${{ env.POSTGRES_PORT }} \
              -U ${{ env.POSTGRES_USER }} \
              -c "CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR(255), email VARCHAR(255));" \
-             ${{ env.postgresschema.postgres.database.azure.com }}
+             ${{ env.POSTGRES_DB }}
