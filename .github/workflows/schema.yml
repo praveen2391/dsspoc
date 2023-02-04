@@ -1,35 +1,27 @@
-name: Create PostgreSQL Table
+name: PostgreSQL for GitHub Actions
 
-on: [push]
-
-env:
-  POSTGRES_HOST: "postgresschema"
-  POSTGRES_PORT: "5432"
-  POSTGRES_DB: "postgresschema.postgres.database.azure.com"
-  POSTGRES_USER: "schema01@postgresschema"
-  POSTGRES_PASSWORD: "Schema@01"
+on:
+push:
+    branches: [ master ]
+pull_request:
+    branches: [ master ]
 
 jobs:
-  create_table:
+build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
-    - name: Set up PostgreSQL CLI
-      uses: docker://postgres:12
-      env:
-        POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
-        POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
-        POSTGRES_DB: ${{ env.POSTGRES_DB }}
-        POSTGRES_USER: ${{ env.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-    
-    - name: Create table
-      run: |
-        psql -h ${{ env.POSTGRES_HOST }} \
-             -p ${{ env.POSTGRES_PORT }} \
-             -U ${{ env.POSTGRES_USER }} \
-             -c "CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR(255), email VARCHAR(255));" \
-             ${{ env.POSTGRES_DB }}
+    - uses: actions/checkout@v1
+    - uses: azure/login@v1
+    with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+- uses: azure/postgresql@v1
+  with:
+    server-name: dss-postgresql-server
+    connection-string: ${{ secrets.psql host=dss-postgresql-server.postgres.database.azure.com port=5432 dbname=dss-postgresql-db user=schema01@dss-postgresql-server password=Schema@01 sslmode=require }}
+    sql-file: './data.sql'
+
+    # Azure logout
+- name: logout
+  run: |
+     az logout
