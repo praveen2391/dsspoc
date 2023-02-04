@@ -20,16 +20,16 @@ jobs:
     - name: Set up PostgreSQL CLI
       uses: docker://postgres:12
       env:
-        POSTGRES_HOST: ${{ env.postgresschema }}
-        POSTGRES_PORT: ${{ env.5432 }}
-        POSTGRES_DB: ${{ env.postgresschema.postgres.database.azure.com }}
-        POSTGRES_USER: ${{ env.schema01 }}
-        POSTGRES_PASSWORD: ${{ env.Schema@01 }}
+        POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+        POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+        POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        POSTGRES_USER: ${{ env.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
     
     - name: Create table
       run: |
-        psql -h ${{ env.postgresschema }} \
-             -p ${{ env.5432 }} \
-             -U ${{ env.schema01 }} \
+        psql -h ${{ env.POSTGRES_HOST }} \
+             -p ${{ env.POSTGRES_PORT }} \
+             -U ${{ env.POSTGRES_USER }} \
              -c "CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR(255), email VARCHAR(255));" \
              ${{ env.postgresschema.postgres.database.azure.com }}
