@@ -14,7 +14,6 @@ build:
     - uses: azure/login@v1
     with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
 - uses: azure/postgresql@v1
   with:
     server-name: dss-postgresql-server
