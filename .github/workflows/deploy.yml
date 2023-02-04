@@ -1,0 +1,27 @@
+name: PostgreSQL for GitHub Actions
+
+on:
+push:
+    branches: [ master ]
+pull_request:
+    branches: [ master ]
+
+jobs:
+build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: azure/login@v1
+    with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+- uses: azure/postgresql@v1
+  with:
+    server-name: dss-postgresql-server
+    connection-string: ${{ secrets.psql host=dss-postgresql-server.postgres.database.azure.com port=5432 dbname=dss-postgresql-db user=schema01@dss-postgresql-server password=Schema@01 sslmode=require }}
+    sql-file: './data.sql'
+
+    # Azure logout
+- name: logout
+  run: |
+     az logout
