@@ -1,17 +1,15 @@
 
 name: PostgreSQL for GitHub Actions
 
-on:
-push:
-    branches: [ master ]
-pull_request:
-    branches: [ master ]
-
+on: 
+  push: 
+    branches: 
+      - master
 jobs:
-build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: azure/login@v1
-    with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+  build:
+     runs-on: ubuntu-latest
+     steps:
+     - uses: actions/checkout@v1
+     - uses: azure/login@v1
+       with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
